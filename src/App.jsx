@@ -1,11 +1,17 @@
+import { StrictMode } from "react";
+import PizzaOfTheDay from "./PizzaOfTheDay";
 import Order from "./Order";
 
 function App() {
   return (
-    <div>
-      <h1>Pizza Addis - order Now</h1>
-      <Order />
-    </div>
+    <StrictMode>
+      <div>
+        <h1>Pizza Addis - order Now</h1>
+        <Order />
+        <PizzaOfTheDay />
+      </div>
+    </StrictMode>
+    
   )
 }
 
