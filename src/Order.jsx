@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import Pizza from "./Pizza";
+import Cart from './Cart';
 
 const intl = new Intl.NumberFormat("en-us", {
     style: "currency",
@@ -11,8 +12,23 @@ export default function Order() {
   const [pizzaType,setPizzaType] = useState("pepperoni");
   const [pizzaSize,setPizzaSize] = useState("M");
   const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useState([]);
   
-  
+  async function checkout() {
+    setLoading(true);
+
+    await fetch("/api/order", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({ cart }),
+    });
+
+    setCart([]);
+    setLoading(false);
+  }
+
   let price, selectedPizza;
 
   if(!loading) {
@@ -35,7 +51,13 @@ export default function Order() {
   return (
     <div className="order">
       <h2>Create Order</h2>
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setCart([...cart, {pizza: selectedPizza, size:pizzaSize, 
+            price }]);
+        }}  
+      >
         <div>
             <div>
               <label htmlFor="pizza-type">Pizza Type</label>
@@ -106,6 +128,9 @@ export default function Order() {
             </div>
           )}
         </form>
+        {
+          loading ? <h2>LOADING ...</h2> : <Cart checkout={checkout} cart={cart}/>
+        }
       </div>
       
   );
