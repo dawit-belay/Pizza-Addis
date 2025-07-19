@@ -3,7 +3,7 @@ import { useState, useEffect, useDebugValue } from 'react';
 export const usePizzaOfTheDay = () => {
     const [pizzaOfTheDay,setPizzaOfTheDay] = useState(null);
     useDebugValue(
-        pizzaOfTheDay ? `${pizzaOfTheDay.id}`: "loasding _",
+        pizzaOfTheDay ? `${pizzaOfTheDay.id}`: "loading _",
 )
     useEffect(() => {
         async function fetchPizzaOfTheDay(){

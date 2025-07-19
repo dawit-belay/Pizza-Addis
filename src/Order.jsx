@@ -16,7 +16,6 @@ export default function Order() {
   
   async function checkout() {
     setLoading(true);
-
     await fetch("/api/order", {
       method: "POST",
       headers: {
@@ -36,7 +35,6 @@ export default function Order() {
     price = intl.format(selectedPizza.sizes[pizzaSize]);
   }
   
-
   async function fetchPizzaTypes(){
     const pizzaRes = await fetch("/api/pizzas");
     const pizzaJson = await pizzaRes.json();
@@ -49,89 +47,89 @@ export default function Order() {
   },[])
 
   return (
-    <div className="order">
-      <h2>Create Order</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setCart([...cart, {pizza: selectedPizza, size:pizzaSize, 
-            price }]);
-        }}  
-      >
-        <div>
-            <div>
-              <label htmlFor="pizza-type">Pizza Type</label>
-              <select 
-                id="pizza-type"
-                name="pizza-type" 
-                value={pizzaType}
-                onChange={e => setPizzaType(e.target.value)}
-                >
-                {pizzaTypes.map((pizza) =>(
-                  <option key={pizza.id} value={pizza.id}>
-                    {pizza.name}
-                  </option>
-                ))}
-                
-              </select>
-            </div>
-            <div>
-              <label>Pizza Size</label>
+    <div className="order-page">
+      <div className="order">
+        <h2>Create Order</h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setCart([...cart, {pizza: selectedPizza, size:pizzaSize, 
+              price }]);
+          }}  
+        >
+          <div>
               <div>
-                <span>
-                  <input
-                    onChange = {(e) =>{setPizzaSize(e.target.value)} }
-                    checked={pizzaSize === "S"}
-                    type="radio"
-                    name="pizza-size"
-                    value="S"
-                    id="pizza-s"
-                  />
-                  <label htmlFor="pizza-s">Small</label>
-                </span>
-                <span>
-                  <input
-                    onChange = {(e) =>{setPizzaSize(e.target.value)}}
-                    checked={pizzaSize === "M"}
-                    type="radio"
-                    name="pizza-size"
-                    value="M"
-                    id="pizza-m"
-                  />
-                  <label htmlFor="pizza-m">Medium</label>
-                </span>
-                <span>
-                  <input
-                    onChange = {(e) =>{setPizzaSize(e.target.value)}}
-                    checked={pizzaSize === "L"}
-                    type="radio"
-                    name="pizza-size"
-                    value="L"
-                    id="pizza-l"
-                  />
-                  <label htmlFor="pizza-l">Large</label>
-                </span>
+                <label htmlFor="pizza-type">Pizza Type</label>
+                <select 
+                  id="pizza-type"
+                  name="pizza-type" 
+                  value={pizzaType}
+                  onChange={e => setPizzaType(e.target.value)}
+                  >
+                  {pizzaTypes.map((pizza) =>(
+                    <option key={pizza.id} value={pizza.id}>
+                      {pizza.name}
+                    </option>
+                  ))}
+                  
+                </select>
               </div>
+              <div>
+                <label>Pizza Size</label>
+                <div>
+                  <span>
+                    <input
+                      onChange = {(e) =>{setPizzaSize(e.target.value)} }
+                      checked={pizzaSize === "S"}
+                      type="radio"
+                      name="pizza-size"
+                      value="S"
+                      id="pizza-s"
+                    />
+                    <label htmlFor="pizza-s">Small</label>
+                  </span>
+                  <span>
+                    <input
+                      onChange = {(e) =>{setPizzaSize(e.target.value)}}
+                      checked={pizzaSize === "M"}
+                      type="radio"
+                      name="pizza-size"
+                      value="M"
+                      id="pizza-m"
+                    />
+                    <label htmlFor="pizza-m">Medium</label>
+                  </span>
+                  <span>
+                    <input
+                      onChange = {(e) =>{setPizzaSize(e.target.value)}}
+                      checked={pizzaSize === "L"}
+                      type="radio"
+                      name="pizza-size"
+                      value="L"
+                      id="pizza-l"
+                    />
+                    <label htmlFor="pizza-l">Large</label>
+                  </span>
+                </div>
+              </div>
+              <button type="submit">Add to Cart</button>
             </div>
-            <button type="submit">Add to Cart</button>
-          </div>
-          {loading ? (
-            <h1>loading piza lol </h1>
-          ) : (
-            <div className="order-pizza">
-                <Pizza
-                  name={selectedPizza.name}
-                  description={selectedPizza.description}
-                  image={selectedPizza.image}
-                />
-              <p>{price}</p>
-            </div>
-          )}
-        </form>
-        {
-          loading ? <h2>LOADING ...</h2> : <Cart checkout={checkout} cart={cart}/>
-        }
+            {loading ? (
+              <h1>loading piza lol </h1>
+              ) : (
+                <div className="order-pizza">
+                    <Pizza
+                      name={selectedPizza.name}
+                      description={selectedPizza.description}
+                      image={selectedPizza.image}
+                    />
+                  <p>{price}</p>
+                </div>
+                )}
+          </form>
       </div>
+        {loading ? <h2>LOADING ...</h2> : <Cart checkout={checkout} cart={cart}/>}
+    </div>
       
   );
 }
